@@ -2,7 +2,8 @@ import json
 from utils import *
 from doit import *
 import time
-def orchestrate(path):
+from tester import *
+def orchestrate(path,mode,mode2=0):
     try:
         dur=time.time()
         split_pdf_simple(path)
@@ -12,7 +13,16 @@ def orchestrate(path):
         reconciled_ammount=0
 
         for j,pdf in enumerate(pdfs):
-            b,a=doit(f"{pdf}",f"train_sample_{j}")
+            if mode==0:
+                b,a=doit(f"{pdf}",f"train_sample_{j}")
+            else:
+                with open('/home/ubuntu/pranav/temp_outputs/response.json', 'r') as f:
+                    data = json.load(f)
+                b,a=validate("/home/ubuntu/pranav/temp_outputs/recieved/recieved.json","/home/ubuntu/pranav/temp_outputs/response.json")
+
+                #b,a=validate(f"{pdf}",f"train_sample_{j}")
+
+                #/home/ubuntu/pranav/temp_outputs/recieved
 
             bill_items=[]
 
@@ -31,7 +41,7 @@ def orchestrate(path):
                   "is_success": True,
                   "data":{"pagewise_line_items":pagewise_line_items,
                           "total_item_count":total_item_count,
-                          "reconciled_ammount":reconciled_ammount
+                          "reconciled_amount":round(reconciled_ammount,2)
                          }
 
             }
@@ -39,7 +49,7 @@ def orchestrate(path):
         with open(f"/home/ubuntu/pranav/temp_outputs/response.json", "w") as f:
             json.dump(response, f, indent=2)
 
-
+    
 
         print(response)
     except Exception as e:

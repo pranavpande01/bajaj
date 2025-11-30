@@ -13,7 +13,7 @@ from dotenv import load_dotenv
 load_dotenv()
 client = genai.Client(api_key=os.getenv("GOOGLE-API-KEY"))
 
-REFERENCE_PDF_PATH = "/home/ubuntu/pranav/reference/sample_composite.pdf"
+REFERENCE_PDF_PATH = "/home/ubuntu/pranav/examples/doc1.pdf"
 
 
 class ValidatedBillItem(BaseModel):
@@ -72,16 +72,7 @@ If corrected, briefly explain what was wrong in correction_notes.
 
 
 def validate(original_pdf_path: str, extraction_json: dict) -> tuple:
-    """
-    Validate and potentially correct an extraction using Gemini 2.5 Pro.
 
-    Args:
-        original_pdf_path: Path to the original PDF that was extracted
-        extraction_json: The extraction output from the Flash model
-
-    Returns:
-        tuple: (usage_metadata, validated_response)
-    """
     original_pdf = pathlib.Path(original_pdf_path)
     reference_pdf = pathlib.Path(REFERENCE_PDF_PATH)
 
