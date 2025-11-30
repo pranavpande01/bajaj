@@ -70,7 +70,7 @@ def doit(path,output):
 
   prompt = str(generate_prompt())
   response = client.models.generate_content(
-    model="gemini-2.5-pro",
+    model="gemini-2.5-flash-lite",
     contents=[
         types.Part.from_bytes(
           data=filepath.read_bytes(),
