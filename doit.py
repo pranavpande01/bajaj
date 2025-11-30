@@ -64,13 +64,19 @@ def generate_prompt():
       Now produce the JSON output.
       """
     return user_prompt
-def doit(path,output):
+def doit(path,output,mode=0):
   path=str(path)
   filepath = pathlib.Path(path)
 
   prompt = str(generate_prompt())
+  if mode==0:  
+    model="gemini-2.5-flash"
+  if mode==1:
+    model="gemini-2.5-flash-lite"
+  if mode==2:
+    model="gemini-2.5-pro"
   response = client.models.generate_content(
-    model="gemini-2.5-flash-lite",
+    model=model,
     contents=[
         types.Part.from_bytes(
           data=filepath.read_bytes(),

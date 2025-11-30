@@ -14,7 +14,9 @@ def orchestrate(path,mode,mode2=0):
 
         for j,pdf in enumerate(pdfs):
             if mode==0:
-                b,a=doit(f"{pdf}",f"train_sample_{j}")
+                b,a=doit(f"{pdf}",f"train_sample_{j}",0)
+            if mode==1:
+                b,a=doit(f"{pdf}",f"train_sample_{j}",1)
             else:
                 with open('/home/ubuntu/pranav/temp_outputs/response.json', 'r') as f:
                     data = json.load(f)
